@@ -1,0 +1,65 @@
+{
+	"pages": [ 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "sub-pages",
+			"pages": [
+				{
+					"path": "my/my",
+					"style": {
+						"navigationBarTitleText": "我的"
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "YourAppName",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"text": "首页",
+			"iconfont": {
+				"text": "\ue662",
+				"selectedText": "\ue663",
+				"fontSize": "22px",
+				"color": "#7A7E83",
+				"selectedColor": "#3cc51f"
+			}
+		}, {
+			"pagePath": "sub-pages/my/my",
+			"text": "我的",
+			"iconfont": {
+				"text": "\ue699",
+				"selectedText": "\ue69d",
+				"fontSize": "22px",
+				"color": "#7A7E83",
+				"selectedColor": "#3cc51f"
+			}
+		}],
+		"iconfontSrc": "/uni_modules/uni-icons/components/uni-icons/uniicons.ttf"
+	},
+	"uniIdRouter": {}
+}
