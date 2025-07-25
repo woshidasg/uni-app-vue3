@@ -1,73 +1,64 @@
-# uni-app-vue3 项目模板
+<h1 align="center">uni-app-vue3 项目模板</h1>
 
-## 项目概述
+<p align="center">
+  <strong>高效、规范、功能完备的 uni-app + Vue3 跨平台应用开发脚手架</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/woshidasg/uni-app-vue3"><img src="https://img.shields.io/github/stars/woshidasg/uni-app-vue3.svg?style=social&label=Stars" alt="GitHub stars"></a>
+  <a href="https://github.com/woshidasg/uni-app-vue3/fork"><img src="https://img.shields.io/github/forks/woshidasg/uni-app-vue3.svg?style=social&label=Fork" alt="GitHub forks"></a>
+  <img src="https://img.shields.io/badge/Vue-3.x-green" alt="vue">
+  <img src="https://img.shields.io/badge/uni--app-supported-blue" alt="uni-app">
+  <img src="https://img.shields.io/badge/Vuex-4.x-orange" alt="vuex">
+  <img src="https://img.shields.io/github/license/woshidasg/uni-app-vue3" alt="license">
+</p>
+
+---
+
+## 📖 开源信息
+
+本仓库由 [@woshidasg](https://github.com/woshidasg) 进行开发和维护。欢迎大家 Star、Fork，并提出宝贵的意见。
+
+---
+
+## 📖 项目简介
 
 uni-app-vue3 是一个高效、规范、功能完备的 uni-app 开发脚手架，为快速开发跨平台应用提供了完整的解决方案。本模板集成了多语言国际化、状态管理、路由守卫、请求封装等企业级功能，并采用分包加载策略优化性能，同时内置代码规范工具保证代码质量。
 
-## 技术栈
+---
 
-- **框架**: Vue 3.x + uni-app
-- **状态管理**: Vuex 4.x
-- **国际化**: vue-i18n 9.x
-- **代码规范**: ESLint 8.x + Prettier 3.x
-- **UI组件**: uni-ui
-- **编译工具**: Vite
-- **CSS预处理器**: SCSS
-- **请求库**: 基于 uni.request 的封装
-- **包管理**: npm
-- **环境**: Node.js 18.20.1+
+## ✨ 功能特性
 
-## 核心功能
+- **企业级网络请求封装**：基于 `uni.request`，支持拦截器、Token 自动注入、全局错误处理、401 自动跳转登录等。
+- **模块化状态管理**：集成 Vuex 4.x，用户信息持久化，支持多模块扩展。
+- **全局路由守卫**：基于 `uni.addInterceptor`，灵活配置白名单、权限控制、防重复登录。
+- **分包加载优化**：主包精简，分包预加载，提升启动速度和性能。
+- **多语言国际化**：集成 vue-i18n，支持中英文切换，自动检测系统语言，TabBar 动态多语言。
+- **代码规范与格式化**：内置 ESLint + Prettier，统一风格，自动格式化，提升团队协作。
+- **主题与自定义导航栏**：支持明暗主题切换，自定义导航栏样式。
+- **缓存与表单验证**：分包缓存策略，集成多语言表单验证。
 
-### 1. 网络请求封装
+---
 
-- 基于 `uni.request` 的企业级封装
-- 支持请求/响应拦截器
-- Token 自动注入与管理
-- 401 状态码自动重定向到登录页
-- 提供 GET、POST、PUT、DELETE 等快捷方法
-- 全局错误处理和友好提示
+## 🛠️ 技术栈
 
-### 2. 状态管理
+- **核心框架**：Vue 3.x + uni-app
+- **状态管理**：Vuex 4.x
+- **国际化**：vue-i18n 9.x
+- **UI 组件**：uni-ui
+- **请求库**：基于 uni.request 封装
+- **代码规范**：ESLint 8.x + Prettier 3.x
+- **编译工具**：Vite
+- **CSS 预处理**：SCSS
+- **包管理**：npm
+- **运行环境**：Node.js 18.20.1+
 
-- 集成 Vuex 4.x，采用模块化设计
-- 内置用户模块，实现登录状态和用户信息管理
-- 数据持久化，自动保存到本地存储
-- 支持多模块扩展，便于大型应用开发
+---
 
-### 3. 路由守卫
-
-- 通过 `uni.addInterceptor` 实现全局导航拦截
-- 可配置页面白名单，无需登录即可访问
-- 灵活的权限控制系统
-- 防重复登录和未授权访问控制
-
-### 4. 分包加载
-
-- 采用分包加载策略，将非核心功能拆分为独立分包
-- 减小主包体积，提升小程序首次启动速度
-- 优化性能表现，提高用户体验
-- 支持分包预加载，进一步优化体验
-
-### 5. 多语言国际化
-
-- 集成 vue-i18n，支持中英文无缝切换
-- 自动检测系统语言，提供最佳本地化体验
-- 完整的多语言管理工具，包括语言切换、持久化等
-- 支持动态更新 TabBar 文本等界面元素
-- 全局注入 $t 方法，便于在任何组件中使用
-
-### 6. 代码规范
-
-- 内置 ESLint 和 Prettier 配置
-- 统一代码风格，提高代码质量
-- 支持自动格式化和语法检查
-- 便于团队协作，减少代码冲突
-
-## 项目结构
+## 📁 项目结构
 
 ```
-uni-app-yj/
+.
 ├── api/                  # API 接口封装
 │   ├── index.js          # API 接口入口
 │   └── user.js           # 用户相关接口
@@ -105,49 +96,29 @@ uni-app-yj/
 └── uni.scss              # 全局样式变量
 ```
 
-## 扩展功能
+---
 
-### 1. 缓存管理工具
+## 🚀 快速上手
 
-- 支持分包资源缓存策略
-- 过期时间控制，避免缓存过期问题
-- 按分包清理缓存，优化存储空间
-
-### 2. 自定义导航栏
-
-- 登录页面实现了自定义导航栏
-- 支持各种自定义样式和交互
-
-### 3. 主题配置
-
-- 支持明暗主题切换
-- 可扩展的主题系统
-
-### 4. 表单验证
-
-- 集成表单验证功能
-- 多语言错误提示
-
-## 使用指南
-
-### 环境要求
+### 1. 环境准备
 
 - Node.js: 18.20.1 或更高版本
 - npm: 最新稳定版本
 
-### 安装依赖
+### 2. 安装依赖
 
 ```bash
 npm install
 ```
-### 开发运行
+
+### 3. 启动开发
 
 ```bash
 npm run dev:h5        # H5 开发模式
 npm run dev:mp-weixin # 微信小程序开发模式
 ```
 
-### 代码规范检查
+### 4. 代码规范检查
 
 ```bash
 npm run lint         # 检查代码规范
@@ -155,26 +126,44 @@ npm run lint:fix     # 自动修复代码规范问题
 npm run format       # 格式化代码
 ```
 
-### 构建发布
+### 5. 构建发布
 
 ```bash
 npm run build:h5        # 构建 H5 版本
 npm run build:mp-weixin # 构建微信小程序版本
 ```
 
-## 最佳实践
+---
 
-1. **API 接口管理**：所有接口统一在 `api` 目录下管理，按模块划分
-2. **状态管理**：全局状态放在 Vuex 中，按模块划分，避免滥用
-3. **路由守卫**：需要登录的页面添加到 `LOGIN_REQUIRED_PAGES` 配置中
-4. **多语言**：所有文本使用 `$t('key')` 的方式引用，便于国际化
-5. **分包加载**：非核心页面放入分包中，减小主包体积
+## 🔧 定制化指南
 
-## 贡献与支持
+### 更换/扩展 API
+- 在 `api/` 目录下按模块添加接口文件，统一管理。
 
-欢迎提交 Issue 和 Pull Request，一起完善这个模板项目。
+### 多语言配置
+- 在 `locale/` 目录下维护多语言包，使用 `$t('key')` 方式调用。
 
-## 许可证
+### 主题切换
+- 可扩展主题系统，支持明暗主题自定义。
 
-ISC License 
-# uni-app-vue3
+### 分包与缓存
+- 按需拆分页面到 `sub-pages/`，并结合 `utils/cache.js` 管理缓存。
+
+### 自定义导航栏
+- 登录页等可自定义导航栏样式，参考 `pages/login/` 实现。
+
+### 表单验证
+- 使用 `utils/validate.js`，支持多语言错误提示。
+
+---
+
+## 🏆 最佳实践
+
+1. **API 管理**：所有接口统一在 `api` 目录下管理，按模块划分。
+2. **状态管理**：全局状态放在 Vuex 中，按模块划分，避免滥用。
+3. **路由守卫**：需要登录的页面添加到 `LOGIN_REQUIRED_PAGES` 配置中。
+4. **多语言**：所有文本使用 `$t('key')` 的方式引用，便于国际化。
+5. **分包加载**：非核心页面放入分包中，减小主包体积。
+
+---
+
