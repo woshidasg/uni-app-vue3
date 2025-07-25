@@ -184,7 +184,7 @@
 	.hero {
 		background: linear-gradient(to bottom, #4a8cff, #2979ff);
 		color: white;
-		padding: 80rpx 40rpx;
+		padding: 80px 40px;
 		text-align: center;
 		display: flex;
 		flex-direction: column;
@@ -192,15 +192,15 @@
 	}
 	
 	.hero-image {
-		width: 150rpx;
-		height: 150rpx;
-		margin-bottom: 20rpx;
+		width: 150px;
+		height: 150px;
+		margin-bottom: 20px;
 		border-radius: 50%;
-		border: 4rpx solid rgba(255, 255, 255, 0.5);
+		border: 4px solid rgba(255, 255, 255, 0.5);
 	}
 	
 	.hero-title {
-		font-size: 48rpx;
+		font-size: 48px;
 		font-weight: bold;
 		max-width: 90%;
 		line-height: 1.3;
@@ -208,9 +208,9 @@
 	}
 	
 	.hero-subtitle {
-		font-size: 28rpx;
+		font-size: 28px;
 		color: rgba(255, 255, 255, 0.8);
-		margin-top: 10rpx;
+		margin-top: 10px;
 		max-width: 95%;
 		line-height: 1.4;
 		margin-left: auto;
@@ -222,15 +222,15 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 30rpx 0;
+		padding: 30px 0;
 	}
 	
 	.grid-text {
-		font-size: 26rpx;
-		margin-top: 10rpx;
+		font-size: 26px;
+		margin-top: 10px;
 		color: #666;
 		text-align: center;
-		padding: 0 5rpx;
+		padding: 0 5px;
 		line-height: 1.3;
 		height: 2.6em;
 		display: flex;

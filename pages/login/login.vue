@@ -150,51 +150,51 @@ page {
 }
 
 .login-container {
-	padding: 30rpx 60rpx;
+	padding: 30px 60px;
 	display: flex;
 	flex-direction: column;
 }
 
 .custom-nav-bar {
-	height: 88rpx; // Approximation of navigation bar height
+	height: 88px; // Approximation of navigation bar height
 	display: flex;
 	align-items: center;
-	margin-bottom: 40rpx;
+	margin-bottom: 40px;
 }
 
 .logo-area {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 100rpx;
+	margin-bottom: 100px;
 }
 
 .logo {
-	width: 180rpx;
-	height: 180rpx;
-	border-radius: 20rpx;
+	width: 180px;
+	height: 180px;
+	border-radius: 20px;
 }
 
 .app-name {
-	font-size: 40rpx;
+	font-size: 40px;
 	font-weight: bold;
-	margin-top: 20rpx;
+	margin-top: 20px;
 	color: #333;
 }
 
 .form-section {
-	margin-bottom: 20rpx;
+	margin-bottom: 20px;
 }
 
 .login-btn {
 	background: linear-gradient(to right, #4a8cff, #2979ff);
 	color: #ffffff;
-	border-radius: 50rpx;
-	font-size: 32rpx;
+	border-radius: 50px;
+	font-size: 32px;
 	box-shadow: 0 4px 10px rgba(41, 121, 255, 0.4);
-	margin-top: 40rpx;
-	height: 90rpx;
-	line-height: 90rpx;
+	margin-top: 40px;
+	height: 90px;
+	line-height: 90px;
 	width: 100%;
 
 	&.disabled {
@@ -205,14 +205,14 @@ page {
 }
 
 .agreement-section {
-	margin-top: 20rpx;
+	margin-top: 20px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
 .agreement-text {
-	font-size: 24rpx;
+	font-size: 24px;
 	color: #999;
 }
 
@@ -220,31 +220,31 @@ page {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 40rpx;
-	font-size: 26rpx;
+	margin-top: 40px;
+	font-size: 26px;
 	color: #999;
 }
 
 .link-divider {
-	margin: 0 20rpx;
+	margin: 0 20px;
 	color: #ccc;
 }
 
 .third-party-section {
-	margin-top: 80rpx;
+	margin-top: 80px;
 }
 
 .divider {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 30rpx;
+	margin-bottom: 30px;
 }
 
 .divider-text {
 	color: #999;
-	font-size: 24rpx;
-	padding: 0 20rpx;
+	font-size: 24px;
+	padding: 0 20px;
 	position: relative;
 }
 
@@ -253,17 +253,17 @@ page {
 	content: '';
 	position: absolute;
 	top: 50%;
-	width: 80rpx;
+	width: 80px;
 	height: 1px;
 	background-color: #e0e0e0;
 }
 
 .divider-text::before {
-	left: -90rpx;
+	left: -90px;
 }
 
 .divider-text::after {
-	right: -90rpx;
+	right: -90px;
 }
 
 .third-party-item {

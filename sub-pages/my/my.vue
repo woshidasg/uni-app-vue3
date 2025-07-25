@@ -198,7 +198,7 @@ page {
 .user-profile {
 	display: flex;
 	align-items: center;
-	padding: 40rpx;
+	padding: 40px;
 	background: linear-gradient(to right, #4a8cff, #2979ff);
 	color: white;
 	position: relative;
@@ -206,18 +206,18 @@ page {
 
 .profile-arrow {
 	position: absolute;
-	right: 40rpx;
+	right: 40px;
 	top: 50%;
 	transform: translateY(-50%);
 }
 
 .user-avatar {
-	width: 120rpx;
-	height: 120rpx;
+	width: 120px;
+	height: 120px;
 	border-radius: 50%;
-	border: 4rpx solid rgba(255, 255, 255, 0.5);
+	border: 4px solid rgba(255, 255, 255, 0.5);
 	overflow: hidden;
-	margin-right: 30rpx;
+	margin-right: 30px;
 }
 
 .avatar-image {
@@ -231,21 +231,21 @@ page {
 }
 
 .username {
-	font-size: 36rpx;
+	font-size: 36px;
 	font-weight: bold;
 }
 
 .edit-hint {
-	font-size: 24rpx;
+	font-size: 24px;
 	color: rgba(255, 255, 255, 0.8);
-	margin-top: 8rpx;
+	margin-top: 8px;
 }
 
 .stats-section {
-	margin: -20rpx 20rpx 20rpx;
+	margin: -20px 20px 20px;
 	background-color: #ffffff;
-	border-radius: 10rpx;
-	padding: 20rpx 0;
+	border-radius: 10px;
+	padding: 20px 0;
 	position: relative;
 	box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
@@ -258,22 +258,22 @@ page {
 }
 
 .stats-value {
-	font-size: 32rpx;
+	font-size: 32px;
 	font-weight: bold;
 	color: #333;
-	margin-top: 8rpx;
+	margin-top: 8px;
 }
 
 .stats-label {
-	font-size: 24rpx;
+	font-size: 24px;
 	color: #666;
-	margin-top: 8rpx;
+	margin-top: 8px;
 }
 
 .menu-section {
-	margin: 20rpx;
+	margin: 20px;
 	background-color: #ffffff;
-	border-radius: 10rpx;
+	border-radius: 10px;
 	overflow: hidden;
 }
 
@@ -283,7 +283,7 @@ page {
 }
 
 .logout-section {
-	margin: 40rpx 20rpx;
+	margin: 40px 20px;
 }
 
 .logout-btn {
