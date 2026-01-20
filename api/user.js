@@ -1,6 +1,7 @@
 /**
- * 用户相关 API（模拟接口）
+ * 用户相关 API
  */
+import request from '@/utils/request';
 
 /**
  * 生成随机头像URL
@@ -22,6 +23,15 @@ function getRandomAvatar() {
   ];
   
   return avatarApis[Math.floor(Math.random() * avatarApis.length)];
+}
+
+/**
+ * 真实登录接口 - 使用 POST 请求
+ * @param {object} data - 登录数据
+ * @returns {Promise}
+ */
+export function login(data) {
+  return request.post('/auth/login', data);
 }
 
 /**

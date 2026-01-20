@@ -29,8 +29,12 @@ function showLoading(title = '加载中...') {
  */
 function hideLoading() {
 	requestCount.value--;
-	if (requestCount.value <= 0) {
+	// 防止计数器为负数
+	if (requestCount.value < 0) {
 		requestCount.value = 0;
+	}
+	
+	if (requestCount.value === 0) {
 		try {
 			uni.hideLoading();
 		} catch (e) {

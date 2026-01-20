@@ -31,7 +31,7 @@ export function setupInterceptor() {
     })
   })
   
-  console.log('路由拦截器已启用')
+  console.log('✅ 路由拦截器已启用')
 }
 
 /**
@@ -43,5 +43,5 @@ export function removeInterceptor() {
     uni.removeInterceptor(method)
   })
   
-  console.log('路由拦截器已禁用')
+  console.log('❌ 路由拦截器已禁用')
 }

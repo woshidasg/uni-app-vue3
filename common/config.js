@@ -1,14 +1,49 @@
 /**
- * 全局配置文件（优化版）
- * 环境配置已移至 env.js 和 store/modules/app.js
+ * 全局配置文件（统一配置）
+ * 包含：API配置、代理配置、环境配置、路由配置等
  */
+
+// ========== API 配置 ==========
+// 统一使用代理路径作为前端网关前缀，由代理转发到后端 /api
+export const BASE_URL = '/uni-app-api'; // API基础URL（代理路径）
+export const REQUEST_TIMEOUT = 30000; // 请求超时时间(毫秒)
+
+// ========== 环境配置 ==========
+/**
+ * 默认环境
+ */
+export const DEFAULT_ENV_KEY = 'dev';
+
+/**
+ * 所有环境配置
+ * 说明：
+ * - H5 环境：使用代理路径（如 /uni-app-api），由 Vite 代理转发到后端
+ * - 小程序/App 环境：使用完整 URL（如 http://192.168.1.105:19999/api）
+ */
+export const DEFAULT_ALL_ENV = {
+  dev: {
+    name: '开发环境',
+    // H5 使用代理路径
+    baseUrl: BASE_URL,
+    // 小程序/App 使用完整 URL（如果需要支持小程序，取消下面的注释）
+    // baseUrl: 'http://localhost:19999/api',
+    debug: true
+  },
+  test: {
+    name: '测试环境',
+    baseUrl: 'https://test-api.example.com/api',
+    debug: true
+  },
+  prod: {
+    name: '生产环境',
+    baseUrl: 'https://api.example.com/api',
+    debug: false
+  }
+};
 
 // ========== 路由配置 ==========
 const NO_TOKEN_BACK_URL = '/pages/login/login';
 const HAS_TOKEN_BACK_URL = '/pages/index/index';
-
-// 请求超时时间
-export const REQUEST_TIMEOUT = 10000;
 
 // 存储Key前缀
 export const STORAGE_PREFIX = 'YJ_';
@@ -46,6 +81,42 @@ export const LOGIN_REQUIRED_PAGES = [
   '/pages/my/my',
   '/sub-pages/my/my'
 ];
+
+// ========== 代理配置 ==========
+/**
+ * @name 代理的配置
+ * @description 在生产环境代理是无法生效的，需要使用 Nginx 等反向代理
+ */
+export const PROXY_CONFIG = {
+  // 开发环境代理配置
+  dev: {
+    '/uni-app-api/': {
+      // 要代理的后端地址
+      target: 'http://127.0.0.1:19999',
+      // 配置了这个可以从 http 代理到 https
+      // 依赖 origin 的功能可能需要这个，比如 cookie
+      changeOrigin: true,
+      // 路径重写：/uni-app-api/auth/login -> /api/auth/login
+      rewrite: (path) => path.replace(/^\/uni-app-api/, '/api'),
+    }
+  },
+  // 测试环境代理配置
+  test: {
+    '/uni-app-api/': {
+      target: 'https://test-api.example.com',
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/uni-app-api/, '/api'),
+    }
+  },
+  // 生产环境（使用 Nginx 反向代理，此配置不生效）
+  prod: {
+    '/uni-app-api/': {
+      target: 'https://api.example.com',
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/uni-app-api/, '/api'),
+    }
+  }
+};
 
 // ========== 默认导出（统一配置对象） ==========
 export default {

@@ -19,6 +19,8 @@ import i18n from './locale'
 import './utils/i18n-helper' // 引入 i18n 辅助函数
 import performanceMonitor from './utils/performance.js' // 性能监控
 import preloadManager from './utils/preload.js' // 资源预加载
+import networkMonitor from './utils/network.js' // 网络监控
+import logger from './utils/logger.js' // 日志管理
 import utils from './plugins/utils' // 工具插件
 import { setupInterceptor } from './utils/interceptor' // 路由拦截器
 
@@ -35,9 +37,11 @@ export function createApp() {
   
   // 注册工具插件到 uni 全局对象
   uni.$utils = utils;
+  uni.$logger = logger;
   
   // 注册工具插件到 Vue 实例
   app.config.globalProperties.$utils = utils;
+  app.config.globalProperties.$logger = logger;
   
   // 将i18n实例挂载到uni全局对象
   uni.$i18n = i18n;
@@ -61,6 +65,9 @@ export function createApp() {
   performanceMonitor.init();
   performanceMonitor.mark('app-init-start');
 
+  // 初始化网络监控
+  networkMonitor.init();
+
   // 空闲时预加载常用分包
   preloadManager.preloadOnIdle(() => {
     preloadManager.preloadSubpackage('my', { priority: 'low', networkType: 'wifi' });
@@ -69,13 +76,23 @@ export function createApp() {
   // #ifdef DEVELOPMENT
   // 配置全局错误处理器
   app.config.errorHandler = (err, vm, info) => {
-    console.error('全局错误捕获:', err, vm, info);
+    logger.error('GlobalError', '组件渲染错误:', err, info);
     uni.showModal({
       title: '组件渲染错误',
       content: `错误信息：${err.toString()}`,
       showCancel: false
     });
   }
+  
+  // 开发环境启用日志持久化
+  logger.enablePersistence();
+  logger.info('App', '应用启动', '开发模式');
+  // #endif
+  
+  // #ifdef PRODUCTION
+  // 生产环境启用日志上报
+  logger.enableReporting();
+  logger.info('App', '应用启动', '生产模式');
   // #endif
   
   performanceMonitor.mark('app-init-end');

@@ -61,6 +61,9 @@ const actions = {
     // commit('SET_USER_INFO', res.userInfo);
     // commit('SET_MENUS', res.menus);
     // commit('SET_PERMISSIONS', res.permissions);
+    
+    // 临时返回，避免 ESLint 警告
+    return Promise.resolve(commit)
   }
 };
 

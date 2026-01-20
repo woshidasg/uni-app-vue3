@@ -2,13 +2,23 @@
  * 应用模块 - 管理环境配置
  * 参考 himms-mobile 的环境管理方式
  */
-import env from '@/env';
+import { DEFAULT_ENV_KEY, DEFAULT_ALL_ENV } from '@/common/config';
 
+// 清除旧的缓存配置，确保使用最新的默认配置
+try {
+  uni.removeStorageSync('envKey');
+  uni.removeStorageSync('allEnv');
+  console.log('已清除旧的环境缓存配置');
+} catch (e) {
+  console.error('清除缓存失败:', e);
+}
+
+// 强制使用最新的默认配置，忽略缓存
 const state = {
-  // 当前环境 key
-  envKey: uni.getStorageSync('envKey') || env.DEFAULT_ENV_KEY,
-  // 所有环境配置
-  allEnv: uni.getStorageSync('allEnv') || env.DEFAULT_ALL_ENV
+  // 当前环境 key - 始终使用默认值
+  envKey: DEFAULT_ENV_KEY,
+  // 所有环境配置 - 始终使用默认值
+  allEnv: DEFAULT_ALL_ENV
 };
 
 const getters = {
@@ -41,7 +51,8 @@ const mutations = {
 
 const actions = {
   // 切换环境
-  switchEnv({ commit, state }, envKey) {
+  switchEnv({ commit }, envKey) {
+    const state = this.state.app
     if (!state.allEnv[envKey]) {
       console.error(`环境 ${envKey} 不存在`);
       return false;
