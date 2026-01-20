@@ -17,6 +17,10 @@ import store from './store'
 import setupPermission from './utils/permission.js'
 import i18n from './locale'
 import './utils/i18n-helper' // 引入 i18n 辅助函数
+import performanceMonitor from './utils/performance.js' // 性能监控
+import preloadManager from './utils/preload.js' // 资源预加载
+import utils from './plugins/utils' // 工具插件
+import { setupInterceptor } from './utils/interceptor' // 路由拦截器
 
 // 设置 vue-i18n 的功能标志，解决 esm-bundler 警告
 // 这些应该在打包配置中设置，但这里作为临时解决方案
@@ -28,6 +32,12 @@ export function createApp() {
   const app = createSSRApp(App)
   app.use(store)
   app.use(i18n)
+  
+  // 注册工具插件到 uni 全局对象
+  uni.$utils = utils;
+  
+  // 注册工具插件到 Vue 实例
+  app.config.globalProperties.$utils = utils;
   
   // 将i18n实例挂载到uni全局对象
   uni.$i18n = i18n;
@@ -44,6 +54,18 @@ export function createApp() {
   // 启用导航守卫
   setupPermission()
 
+  // 启用路由拦截器
+  setupInterceptor()
+
+  // 初始化性能监控
+  performanceMonitor.init();
+  performanceMonitor.mark('app-init-start');
+
+  // 空闲时预加载常用分包
+  preloadManager.preloadOnIdle(() => {
+    preloadManager.preloadSubpackage('my', { priority: 'low', networkType: 'wifi' });
+  });
+
   // #ifdef DEVELOPMENT
   // 配置全局错误处理器
   app.config.errorHandler = (err, vm, info) => {
@@ -55,6 +77,9 @@ export function createApp() {
     });
   }
   // #endif
+  
+  performanceMonitor.mark('app-init-end');
+  performanceMonitor.measure('app-init', 'app-init-start', 'app-init-end');
   
   return {
     app,

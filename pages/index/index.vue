@@ -3,12 +3,25 @@
 		<!-- Hero Section -->
 		<view class="hero">
 			<image class="hero-image" src="/static/logo.png" mode="aspectFit"></image>
-			<text class="hero-title">{{ $t ? $t('index.title') : 'uni-app 项目模板' }}</text>
-			<text class="hero-subtitle">{{ $t ? $t('index.subtitle') : '一个高效、规范、功能完备的 uni-app 开发脚手架，支持分包加载、多语言国际化和代码规范' }}</text>
+			<text class="hero-title">{{ $t('index.title') }}</text>
+			<text class="hero-subtitle">{{ $t('index.subtitle') }}</text>
+		</view>
+
+		<!-- User Welcome Card -->
+		<view class="welcome-card" v-if="token">
+			<view class="welcome-content">
+				<view class="welcome-avatar">
+					<image :src="userInfo.avatar || '/static/logo.png'" mode="aspectFill"></image>
+				</view>
+				<view class="welcome-info">
+					<text class="welcome-name">{{ $t('common.greeting') }}, {{ userInfo.name || userInfo.username }}</text>
+					<text class="welcome-desc">{{ $t('common.welcome') }}</text>
+				</view>
+			</view>
 		</view>
 
 		<!-- Features Grid -->
-		<uni-section :title="$t ? $t('index.coreFeatures') : '核心功能'" type="line" padding>
+		<uni-section :title="$t('index.coreFeatures')" type="line" padding>
 			<uni-grid :column="3" :show-border="false" :square="false">
 				<uni-grid-item>
 					<view class="grid-item-box">
@@ -88,8 +101,20 @@
 		<!-- Additional Features -->
 		<uni-section :title="$t('index.extendedFeatures')" type="line" padding>
 			<uni-list>
-				<uni-list-item :title="$t('common.language') + ': ' + (currentLanguage === 'zh-CN' ? $t('common.chinese') : $t('common.english'))" :note="$t('index.switchLanguage')" showArrow clickable @tap="switchLanguage" />
-				<uni-list-item :title="$t('index.cacheManager')" :note="$t('index.cacheDescription')" showArrow clickable @tap="showCacheInfo" />
+				<uni-list-item 
+					:title="$t('common.language') + ': ' + (currentLanguage === 'zh-CN' ? $t('common.chinese') : $t('common.english'))" 
+					:note="$t('index.switchLanguage')" 
+					showArrow 
+					clickable 
+					@tap="switchLanguage" 
+				/>
+				<uni-list-item 
+					:title="$t('index.cacheManager')" 
+					:note="$t('index.cacheDescription')" 
+					showArrow 
+					clickable 
+					@tap="showCacheInfo" 
+				/>
 			</uni-list>
 		</uni-section>
 
@@ -97,152 +122,264 @@
 </template>
 
 <script>
-	import { setLanguage, getLanguage, getLanguageList } from '@/locale';
+import { mapState } from 'vuex';
+import { setLanguage, getLanguage } from '@/locale';
 	
-	export default {
-		data() {
-			return {
-				title: 'App-Template',
-				currentLanguage: getLanguage()
-			}
-		},
-		onLoad() {
-			// 页面加载时更新当前语言
-			this.currentLanguage = getLanguage();
-		},
-		onShow() {
-			// 动态设置页面标题
+export default {
+	data() {
+		return {
+			currentLanguage: getLanguage()
+		}
+	},
+	computed: {
+		...mapState('user', ['token', 'userInfo'])
+	},
+	onLoad() {
+		this.currentLanguage = getLanguage();
+	},
+	onShow() {
+		try {
+			uni.setNavigationBarTitle({
+				title: this.$t('tabs.home')
+			});
+		} catch (e) {
+			console.error('设置标题失败:', e);
+		}
+	},
+	methods: {
+		switchLanguage() {
 			try {
-				if (this.$t) {
-					uni.setNavigationBarTitle({
-						title: this.$t('tabs.home')
+				const newLang = this.currentLanguage === 'zh-CN' ? 'en-US' : 'zh-CN';
+				setLanguage(newLang);
+				this.currentLanguage = newLang;
+				
+				const toastTitle = newLang === 'zh-CN' 
+					? this.$t('index.switchedToChinese')
+					: this.$t('index.switchedToEnglish');
+				
+				uni.showToast({
+					title: toastTitle,
+					icon: 'none',
+					duration: 2000
+				});
+				
+				setTimeout(() => {
+					uni.reLaunch({
+						url: '/pages/index/index'
 					});
-				} else if (uni.$i18n) {
-					uni.setNavigationBarTitle({
-						title: uni.$i18n.global.t('tabs.home')
-					});
-				}
+				}, 500);
 			} catch (e) {
-				console.error('设置标题失败:', e);
-			}
-		},
-		methods: {
-			switchLanguage() {
-				try {
-					// 切换语言
-					const newLang = this.currentLanguage === 'zh-CN' ? 'en-US' : 'zh-CN';
-					console.log('切换语言:', this.currentLanguage, '->', newLang);
-					
-					// 设置语言
-					setLanguage(newLang);
-					
-					// 更新当前语言
-					this.currentLanguage = newLang;
-					
-					// 显示提示
-					const toastTitle = newLang === 'zh-CN' 
-						? (this.$t ? this.$t('index.switchedToChinese') : '已切换到中文')
-						: (this.$t ? this.$t('index.switchedToEnglish') : 'Switched to English');
-					
-					uni.showToast({
-						title: toastTitle,
-						icon: 'none',
-						duration: 2000
-					});
-					
-					// 刷新当前页面
-					setTimeout(() => {
-						uni.reLaunch({
-							url: '/pages/index/index'
-						});
-					}, 500);
-				} catch (e) {
-					console.error('切换语言失败:', e);
-					uni.showToast({
-						title: '切换语言失败',
-						icon: 'none'
-					});
-				}
-			},
-			showCacheInfo() {
-				uni.showModal({
-					title: this.$t('index.cacheManagerTitle'),
-					content: this.$t('index.cacheManagerContent'),
-					showCancel: false
+				console.error('切换语言失败:', e);
+				uni.showToast({
+					title: '切换语言失败',
+					icon: 'none'
 				});
 			}
+		},
+		showCacheInfo() {
+			uni.showModal({
+				title: this.$t('index.cacheManagerTitle'),
+				content: this.$t('index.cacheManagerContent'),
+				showCancel: false
+			});
 		}
 	}
+}
 </script>
 
-<style lang="scss">
-	.container {
-		background-color: #f5f5f5;
-		min-height: 100vh;
-	}
-	
-	.hero {
-		background: linear-gradient(to bottom, #4a8cff, #2979ff);
-		color: white;
-		padding: 80px 40px;
-		text-align: center;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	
-	.hero-image {
-		width: 150px;
-		height: 150px;
-		margin-bottom: 20px;
-		border-radius: 50%;
-		border: 4px solid rgba(255, 255, 255, 0.5);
-	}
-	
-	.hero-title {
-		font-size: 48px;
-		font-weight: bold;
-		max-width: 90%;
-		line-height: 1.3;
-		margin: 0 auto;
-	}
-	
-	.hero-subtitle {
-		font-size: 28px;
-		color: rgba(255, 255, 255, 0.8);
-		margin-top: 10px;
-		max-width: 95%;
-		line-height: 1.4;
-		margin-left: auto;
-		margin-right: auto;
-	}
+<style lang="scss" scoped>
+.container {
+	background: linear-gradient(180deg, #f8f9fe 0%, #f5f5f5 100%);
+	min-height: 100vh;
+}
 
-	.grid-item-box {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 30px 0;
+.hero {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	padding: 40px 20px 50px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+	
+	&::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		right: -20%;
+		width: 300px;
+		height: 300px;
+		background: rgba(255, 255, 255, 0.1);
+		border-radius: 50%;
 	}
 	
-	.grid-text {
-		font-size: 26px;
-		margin-top: 10px;
-		color: #666;
-		text-align: center;
-		padding: 0 5px;
-		line-height: 1.3;
-		height: 2.6em;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: -30%;
+		left: -10%;
+		width: 200px;
+		height: 200px;
+		background: rgba(255, 255, 255, 0.08);
+		border-radius: 50%;
 	}
+}
+
+.hero-image {
+	width: 100px;
+	height: 100px;
+	margin-bottom: 20px;
+	border-radius: 50%;
+	border: 4px solid rgba(255, 255, 255, 0.3);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+	position: relative;
+	z-index: 1;
+	animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+.hero-title {
+	font-size: 28px;
+	font-weight: bold;
+	max-width: 90%;
+	line-height: 1.3;
+	margin: 0 auto;
+	position: relative;
+	z-index: 1;
+	letter-spacing: 0.5px;
+}
+
+.hero-subtitle {
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.95);
+	margin-top: 12px;
+	max-width: 95%;
+	line-height: 1.6;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	z-index: 1;
+}
+
+.welcome-card {
+	margin: -25px 15px 20px;
+	background: linear-gradient(135deg, #ffffff 0%, #f8f9fe 100%);
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+	border: 1px solid rgba(102, 126, 234, 0.1);
+	position: relative;
+	z-index: 2;
+}
+
+.welcome-content {
+	display: flex;
+	align-items: center;
+}
+
+.welcome-avatar {
+	width: 56px;
+	height: 56px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 3px solid #667eea;
+	margin-right: 15px;
+	box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 	
-	.collapse-content {
-		padding: 15px;
-		font-size: 14px;
-		color: #666;
-		line-height: 22px;
-		background-color: #fdfdfd;
+	image {
+		width: 100%;
+		height: 100%;
 	}
+}
+
+.welcome-info {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.welcome-name {
+	font-size: 18px;
+	font-weight: bold;
+	color: #333;
+	margin-bottom: 6px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
+.welcome-desc {
+	font-size: 13px;
+	color: #666;
+}
+
+.grid-item-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px 10px;
+	transition: all 0.3s ease;
+	border-radius: 12px;
+	
+	&:active {
+		background-color: #f8f9fe;
+		transform: scale(0.95);
+	}
+}
+
+.grid-text {
+	font-size: 13px;
+	margin-top: 10px;
+	color: #555;
+	text-align: center;
+	padding: 0 5px;
+	line-height: 1.5;
+	font-weight: 500;
+}
+
+.collapse-content {
+	padding: 20px;
+	font-size: 14px;
+	color: #666;
+	line-height: 1.8;
+	background: linear-gradient(135deg, #fafbff 0%, #f8f9fe 100%);
+	border-left: 3px solid #667eea;
+}
+
+::v-deep .uni-section {
+	margin-bottom: 15px;
+	
+	.uni-section__content {
+		background-color: #ffffff;
+		border-radius: 16px;
+		overflow: hidden;
+		box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+	}
+}
+
+::v-deep .uni-list {
+	background-color: #ffffff;
+	border-radius: 16px;
+	overflow: hidden;
+	
+	.uni-list-item {
+		transition: background-color 0.2s ease;
+		
+		&:active {
+			background-color: #f8f9fe;
+		}
+	}
+}
 </style>

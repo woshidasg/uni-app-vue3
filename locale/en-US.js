@@ -68,7 +68,7 @@ export default {
     logoutSuccess: 'Logged out',
     editProfileHint: 'This will navigate to profile edit page',
     aboutTitle: 'About',
-    aboutContent: 'This is an efficient, standardized uni-app project template, powered by Gemini 2.5 Pro.',
+    aboutContent: 'This is an efficient and standardized uni-app project template, deeply encapsulated and redeveloped by the author based on the uni-app framework, providing a complete enterprise-level solution.',
     close: 'Close',
     ok: 'OK',
     clearCacheTitle: 'Tip',

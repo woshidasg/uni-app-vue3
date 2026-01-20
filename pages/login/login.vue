@@ -12,10 +12,20 @@
 
 		<uni-forms class="form-section" :modelValue="formData" :rules="rules" ref="form">
 			<uni-forms-item name="username">
-				<uni-easyinput prefixIcon="person" type="text" v-model="formData.username" :placeholder="$t('login.enterUsername')" />
+				<uni-easyinput 
+					prefixIcon="person" 
+					type="text" 
+					v-model="formData.username" 
+					:placeholder="$t('login.enterUsername')" 
+				/>
 			</uni-forms-item>
 			<uni-forms-item name="password">
-				<uni-easyinput prefixIcon="locked" type="password" v-model="formData.password" :placeholder="$t('login.enterPassword')" />
+				<uni-easyinput 
+					prefixIcon="locked" 
+					type="password" 
+					v-model="formData.password" 
+					:placeholder="$t('login.enterPassword')" 
+				/>
 			</uni-forms-item>
 		</uni-forms>
 
@@ -28,7 +38,14 @@
 			</checkbox-group>
 		</view>
 
-		<button class="login-btn" :disabled="!isAgree" :class="{ 'disabled': !isAgree }" @click="handleLogin">{{ $t('login.loginButton') }}</button>
+		<button 
+			class="login-btn" 
+			:disabled="!isAgree" 
+			:class="{ 'disabled': !isAgree }" 
+			@click="handleLogin"
+		>
+			{{ $t('login.loginButton') }}
+		</button>
 		
 		<view class="extra-links">
 			<text class="link">{{ $t('login.registerAccount') }}</text>
@@ -94,17 +111,10 @@ export default {
 		}
 	},
 	onShow() {
-		// 动态设置页面标题 (虽然这是自定义导航栏，但仍设置以保持一致性)
 		try {
-			if (this.$t) {
-				uni.setNavigationBarTitle({
-					title: this.$t('login.title')
-				});
-			} else if (uni.$i18n) {
-				uni.setNavigationBarTitle({
-					title: uni.$i18n.global.t('login.title')
-				});
-			}
+			uni.setNavigationBarTitle({
+				title: this.$t('login.title')
+			});
 		} catch (e) {
 			console.error('设置标题失败:', e);
 		}
@@ -121,19 +131,34 @@ export default {
 			this.$refs.form.validate().then(res => {
 				uni.showLoading({ title: this.$t('login.loginInProgress') });
 				
-				mockLogin(this.formData).then(res => {
+				// 调用模拟登录接口
+				mockLogin(this.formData).then(data => {
+					// 调用 store 的 login action
 					this.login({
-						token: res.data.token,
-						userInfo: res.data.userInfo
+						token: data.token,
+						userInfo: data.userInfo,
+						menus: data.menus || [],
+						permissions: data.permissions || []
 					});
+					
 					uni.hideLoading();
-					uni.showToast({ title: this.$t('login.loginSuccess'), icon: 'none' });
+					uni.showToast({ 
+						title: this.$t('login.loginSuccess'), 
+						icon: 'success',
+						duration: 1500
+					});
+					
+					// 跳转到首页
 					setTimeout(() => {
 						uni.switchTab({ url: '/pages/index/index' });
 					}, 1500);
 
 				}).catch(err => {
 					uni.hideLoading();
+					uni.showToast({
+						title: err.errMsg || '登录失败',
+						icon: 'none'
+					});
 				});
 
 			}).catch(err => {
@@ -144,58 +169,61 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 page {
 	background-color: #ffffff;
 }
 
 .login-container {
-	padding: 30px 60px;
+	padding: 15px 30px;
 	display: flex;
 	flex-direction: column;
+	min-height: 100vh;
 }
 
 .custom-nav-bar {
-	height: 88px; // Approximation of navigation bar height
+	height: 44px;
 	display: flex;
 	align-items: center;
-	margin-bottom: 40px;
+	margin-bottom: 20px;
 }
 
 .logo-area {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	margin-bottom: 100px;
+	margin-bottom: 50px;
 }
 
 .logo {
-	width: 180px;
-	height: 180px;
-	border-radius: 20px;
+	width: 90px;
+	height: 90px;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .app-name {
-	font-size: 40px;
+	font-size: 20px;
 	font-weight: bold;
-	margin-top: 20px;
+	margin-top: 15px;
 	color: #333;
 }
 
 .form-section {
-	margin-bottom: 20px;
+	margin-bottom: 10px;
 }
 
 .login-btn {
-	background: linear-gradient(to right, #4a8cff, #2979ff);
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 	color: #ffffff;
-	border-radius: 50px;
-	font-size: 32px;
-	box-shadow: 0 4px 10px rgba(41, 121, 255, 0.4);
-	margin-top: 40px;
-	height: 90px;
-	line-height: 90px;
+	border-radius: 25px;
+	font-size: 16px;
+	box-shadow: 0 4px 10px rgba(102, 126, 234, 0.4);
+	margin-top: 20px;
+	height: 45px;
+	line-height: 45px;
 	width: 100%;
+	border: none;
 
 	&.disabled {
 		background: #d8d8d8;
@@ -205,14 +233,14 @@ page {
 }
 
 .agreement-section {
-	margin-top: 20px;
+	margin-top: 10px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
 .agreement-text {
-	font-size: 24px;
+	font-size: 12px;
 	color: #999;
 }
 
@@ -220,31 +248,39 @@ page {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 40px;
-	font-size: 26px;
+	margin-top: 20px;
+	font-size: 13px;
 	color: #999;
 }
 
+.link {
+	cursor: pointer;
+	
+	&:hover {
+		color: #667eea;
+	}
+}
+
 .link-divider {
-	margin: 0 20px;
+	margin: 0 10px;
 	color: #ccc;
 }
 
 .third-party-section {
-	margin-top: 80px;
+	margin-top: 40px;
 }
 
 .divider {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 }
 
 .divider-text {
 	color: #999;
-	font-size: 24px;
-	padding: 0 20px;
+	font-size: 12px;
+	padding: 0 10px;
 	position: relative;
 }
 
@@ -253,17 +289,17 @@ page {
 	content: '';
 	position: absolute;
 	top: 50%;
-	width: 80px;
+	width: 40px;
 	height: 1px;
 	background-color: #e0e0e0;
 }
 
 .divider-text::before {
-	left: -90px;
+	left: -45px;
 }
 
 .divider-text::after {
-	right: -90px;
+	right: -45px;
 }
 
 .third-party-item {
@@ -272,5 +308,6 @@ page {
 	align-items: center;
 	width: 100%;
 	height: 100%;
+	padding: 10px 0;
 }
-</style> 
+</style>

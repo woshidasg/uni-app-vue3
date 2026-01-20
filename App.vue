@@ -1,5 +1,6 @@
 <script>
 	import { getLanguage } from '@/locale';
+	import performanceMonitor from '@/utils/performance.js';
 	
 	export default {
 		onLaunch: function() {
@@ -12,11 +13,20 @@
 				console.log('语言已更改，更新 TabBar 文本');
 				this.setTabBarText();
 			});
+			
+			// 页面加载完成后触发性能监控
+			setTimeout(() => {
+				uni.$emit('pageLoadComplete');
+			}, 100);
 		},
 		onShow: function() {
 			console.log('App Show');
 			// 每次显示时更新tabBar文本
 			this.setTabBarText();
+			
+			// 打印性能评分
+			const score = performanceMonitor.getPerformanceScore();
+			console.log('[Performance] Score:', score);
 		},
 		onHide: function() {
 			console.log('App Hide')

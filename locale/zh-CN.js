@@ -68,7 +68,7 @@ export default {
     logoutSuccess: '已退出登录',
     editProfileHint: '这里将跳转到个人信息编辑页',
     aboutTitle: '关于',
-    aboutContent: '这是一个高效、规范的uni-app项目模板，由Gemini 2.5 Pro强力驱动开发。',
+    aboutContent: '这是一个高效、规范的uni-app项目模板，由作者基于uni-app底层框架深度封装和二次开发，提供完整的企业级解决方案。',
     close: '关闭',
     ok: '好的',
     clearCacheTitle: '提示',
